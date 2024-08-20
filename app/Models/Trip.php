@@ -9,10 +9,15 @@ class Trip extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description'];
+    protected $fillable = ['title', 'description', 'image'];
 
     public function days()
     {
         return $this->hasMany(Day::class);
+    }
+
+    public function stops()
+    {
+        return $this->hasManyThrough(Stop::class, Day::class, 'trip_id', 'day_id');
     }
 }

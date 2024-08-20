@@ -22,10 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    
     Route::apiResource('trips.days', DayController::class);
     Route::apiResource('days.stops', StopController::class);
     Route::apiResource('stops.notes', NoteController::class);
 });
 
 Route::apiResource('trips', TripController::class);
+

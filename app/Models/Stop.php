@@ -9,7 +9,12 @@ class Stop extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['day_id', 'location'];
+    protected $fillable = ['trip_id', 'location', 'latitude', 'longitude']; // Aggiunto latitude e longitude
+
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class);
+    }
 
     public function day()
     {

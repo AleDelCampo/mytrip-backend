@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Create Trip</h1>
-        <form action="{{ route('trips.store') }}" method="POST">
+        <form action="{{ route('trips.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -23,9 +23,12 @@
                 <label for="date" class="form-label">Date</label>
                 <input type="date" class="form-control" id="date" name="date" required>
             </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            </div>
             <button type="submit" class="btn btn-primary">Create Trip</button>
         </form>
     </div>
 </body>
 </html>
-

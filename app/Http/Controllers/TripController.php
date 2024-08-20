@@ -10,7 +10,7 @@ class TripController extends Controller
 {
     public function index()
     {
-        return response()->json(Trip::all()); // Vista per elencare tutti i viaggi
+        return response()->json(Trip::all()); // Nota: Potrebbe essere una vista in un contesto web
     }
 
     public function create()
@@ -20,14 +20,27 @@ class TripController extends Controller
 
     public function store(Request $request)
     {
-        $trip = Trip::create($request->all());
-        return redirect()->route('trips.index');
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048', // Validazione per l'immagine
+        ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
+        $trip = Trip::create($data);
+        return view('trips.index');
     }
 
     public function show($id)
     {
-        $trip = Trip::findOrFail($id);
-        return view('trips.show', compact('trip')); // Vista per mostrare un viaggio specifico
+        $trip = Trip::find($id);
+        if (!$trip) {
+            return response()->json(['error' => 'Trip not found'], 404);
+        }
+        return response()->json($trip);
     }
 
     public function edit($id)
@@ -39,7 +52,18 @@ class TripController extends Controller
     public function update(Request $request, $id)
     {
         $trip = Trip::findOrFail($id);
-        $trip->update($request->all());
+
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048', // Validazione per l'immagine
+        ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
+        $trip->update($data);
         return redirect()->route('trips.index');
     }
 
