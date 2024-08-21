@@ -24,7 +24,7 @@
                 <label for="date" class="form-label">Date</label>
                 <input type="date" class="form-control" id="date" name="date" value="{{ $trip->date }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Update Trip</button>
+            <button type="submit" class="btn my-btn text-white">Update Trip</button>
         </form>
     </div>
 </body>

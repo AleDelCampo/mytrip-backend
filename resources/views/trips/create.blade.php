@@ -27,7 +27,7 @@
                 <label for="image" class="form-label">Image</label>
                 <input type="file" class="form-control" id="image" name="image" accept="image/*">
             </div>
-            <button type="submit" class="btn btn-primary">Create Trip</button>
+            <button type="submit" class="btn my-btn text-white">Create Trip</button>
         </form>
     </div>
 </body>

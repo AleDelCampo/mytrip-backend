@@ -35,13 +35,17 @@ class TripController extends Controller
     }
 
     public function show($id)
-    {
-        $trip = Trip::find($id);
-        if (!$trip) {
-            return response()->json(['error' => 'Trip not found'], 404);
-        }
-        return response()->json($trip);
+{
+    // Carica il viaggio insieme alle sue fermate
+    $trip = Trip::with('stops')->find($id);
+
+    if (!$trip) {
+        return response()->json(['error' => 'Trip not found'], 404);
     }
+
+    return response()->json($trip);
+}
+
 
     public function edit($id)
     {
