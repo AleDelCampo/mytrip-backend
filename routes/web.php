@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\DayController;
+use App\Http\Controllers\StopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/days/create', [DayController::class, 'create'])->name('days.create');
+Route::post('/days', [DayController::class, 'store'])->name('days.store');
+Route::get('/days', [DayController::class, 'index'])->name('days.index');
+
+Route::get('/stops/create', [StopController::class, 'create'])->name('stops.create');
+Route::post('/stops', [StopController::class, 'store'])->name('stops.store');
+Route::get('/stops', [StopController::class, 'index'])->name('stops.index');
+
 
 Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
 Route::get('/trips/create', [TripController::class, 'create'])->name('trips.create');

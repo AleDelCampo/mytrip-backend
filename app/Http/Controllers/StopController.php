@@ -3,26 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stop;
-use App\Models\Image;
-use App\Models\Rating;
+use App\Models\Day;
 use Illuminate\Http\Request;
-
 
 class StopController extends Controller
 {
     public function index()
     {
         // Recupera tutte le tappe con le immagini e le valutazioni correlate
-        return Stop::with('images', 'rating')->get();
+        return view('stops.index', ['stops' => Stop::with('images', 'rating')->get()]);
+    }
+
+    public function create()
+    {
+        $days = Day::all(); // Recupera tutti i giorni per il dropdown
+        return view('stops.create', compact('days'));
     }
 
     public function store(Request $request)
     {
         // Validazione dei dati
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'date' => 'required|date',
+            'day_id' => 'required|exists:days,id',
+            'location' => 'required|string|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|max:2048', // Valida ogni immagine
             'rating' => 'nullable|integer|min:1|max:5',
@@ -44,7 +49,7 @@ class StopController extends Controller
             $stop->rating()->create(['rating' => $request->rating]);
         }
 
-        return response()->json($stop->load('images', 'rating'), 201);
+        return redirect()->route('stops.index')->with('success', 'Stop created successfully');
     }
 
     public function show($id)
@@ -53,26 +58,38 @@ class StopController extends Controller
         $stop = Stop::with('images', 'rating')->find($id);
 
         if (!$stop) {
-            return response()->json(['error' => 'Tappa non trovata'], 404);
+            return redirect()->route('stops.index')->with('error', 'Stop not found');
         }
 
-        return response()->json($stop);
+        return view('stops.show', compact('stop'));
+    }
+
+    public function edit($id)
+    {
+        $stop = Stop::find($id);
+        $days = Day::all(); // Recupera tutti i giorni per il dropdown
+
+        if (!$stop) {
+            return redirect()->route('stops.index')->with('error', 'Stop not found');
+        }
+
+        return view('stops.edit', compact('stop', 'days'));
     }
 
     public function update(Request $request, $id)
     {
-        // Trova la tappa da aggiornare
         $stop = Stop::find($id);
 
         if (!$stop) {
-            return response()->json(['error' => 'Tappa non trovata'], 404);
+            return redirect()->route('stops.index')->with('error', 'Stop not found');
         }
 
         // Validazione dei dati
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'date' => 'required|date',
+            'day_id' => 'required|exists:days,id',
+            'location' => 'required|string|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|max:2048',
             'rating' => 'nullable|integer|min:1|max:5',
@@ -103,7 +120,7 @@ class StopController extends Controller
             }
         }
 
-        return response()->json($stop->load('images', 'rating'), 200);
+        return redirect()->route('stops.index')->with('success', 'Stop updated successfully');
     }
 
     public function destroy($id)
@@ -111,7 +128,7 @@ class StopController extends Controller
         $stop = Stop::find($id);
 
         if (!$stop) {
-            return response()->json(['error' => 'Tappa non trovata'], 404);
+            return redirect()->route('stops.index')->with('error', 'Stop not found');
         }
 
         // Elimina le immagini correlate
@@ -125,6 +142,6 @@ class StopController extends Controller
         // Elimina la tappa
         $stop->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('stops.index')->with('success', 'Stop deleted successfully');
     }
 }

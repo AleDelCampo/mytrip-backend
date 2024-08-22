@@ -10,7 +10,8 @@ class TripController extends Controller
 {
     public function index()
     {
-        return response()->json(Trip::all()); // Nota: Potrebbe essere una vista in un contesto web
+        // Carica tutti i viaggi con le giornate e le tappe correlate
+        return response()->json(Trip::with('days.stops')->get());
     }
 
     public function create()
@@ -35,17 +36,16 @@ class TripController extends Controller
     }
 
     public function show($id)
-{
-    // Carica il viaggio insieme alle sue fermate
-    $trip = Trip::with('stops')->find($id);
+    {
+        // Carica il viaggio insieme alle giornate e alle fermate
+        $trip = Trip::with('days.stops')->find($id);
 
-    if (!$trip) {
-        return response()->json(['error' => 'Trip not found'], 404);
+        if (!$trip) {
+            return response()->json(['error' => 'Trip not found'], 404);
+        }
+
+        return response()->json($trip);
     }
-
-    return response()->json($trip);
-}
-
 
     public function edit($id)
     {
