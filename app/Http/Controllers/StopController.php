@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stop;
 use App\Models\Day;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class StopController extends Controller
@@ -143,5 +144,38 @@ class StopController extends Controller
         $stop->delete();
 
         return redirect()->route('stops.index')->with('success', 'Stop deleted successfully');
+    }
+
+    // app/Http/Controllers/StopController.php
+
+    public function rate(Request $request, $id)
+    {
+        $stop = Stop::findOrFail($id);
+        $rating = $request->input('rating');
+
+        // Assicurati di validare l'input
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        // Aggiorna il rating
+        $stop->rating = $rating;
+        $stop->save();
+
+        return response()->json(['success' => true, 'rating' => $stop->rating]);
+    }
+
+    public function addNote(Request $request, $stopId)
+    {
+        $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        $note = new Note();
+        $note->content = $request->input('content');
+        $note->stop_id = $stopId;
+        $note->save();
+
+        return response()->json($note, 201);
     }
 }

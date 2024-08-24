@@ -9,7 +9,7 @@ class Stop extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['trip_id', 'location', 'latitude', 'longitude']; // Aggiunto latitude e longitude
+    protected $fillable = ['trip_id', 'location', 'latitude', 'longitude', 'rating']; // Aggiunto latitude e longitude
 
     public function trip()
     {
@@ -34,5 +34,10 @@ class Stop extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function rating()
+    {
+        return $this->hasOne(Rating::class);
     }
 }

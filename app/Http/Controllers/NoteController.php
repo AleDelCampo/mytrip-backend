@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\Stop;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller
@@ -12,9 +13,17 @@ class NoteController extends Controller
         return Note::all();
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $stopId)
     {
-        $note = Note::create($request->all());
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $stop = Stop::findOrFail($stopId);
+        $note = $stop->notes()->create([
+            'content' => $request->input('content'),
+        ]);
+
         return response()->json($note, 201);
     }
 
@@ -25,14 +34,28 @@ class NoteController extends Controller
 
     public function update(Request $request, $id)
     {
-        $note = Note::find($id);
-        $note->update($request->all());
-        return response()->json($note, 200);
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $note = Note::findOrFail($id);
+        $note->update([
+            'content' => $request->input('content'),
+        ]);
+
+        return response()->json($note);
     }
 
-    public function destroy($id)
+    public function destroy($noteId)
     {
-        Note::destroy($id);
-        return response()->json(null, 204);
+        $note = Note::find($noteId);
+
+        if (!$note) {
+            return response()->json(['message' => 'Note not found'], 404);
+        }
+
+        $note->delete();
+
+        return response()->json(['message' => 'Note deleted successfully']);
     }
 }

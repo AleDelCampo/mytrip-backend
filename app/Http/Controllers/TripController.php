@@ -76,4 +76,13 @@ class TripController extends Controller
         Trip::destroy($id);
         return redirect()->route('trips.index');
     }
+
+    public function getTripDetails($tripId)
+    {
+        $trip = Trip::with(['days.stops.notes'])->find($tripId);
+        if (!$trip) {
+            return response()->json(['error' => 'Trip not found'], 404);
+        }
+        return response()->json($trip);
+    }
 }
