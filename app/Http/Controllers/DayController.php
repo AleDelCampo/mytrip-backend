@@ -13,6 +13,12 @@ class DayController extends Controller
         return view('days.index', ['days' => Day::all()]);
     }
 
+    public function showDaysPage()
+    {
+        // Vista: restituisce la vista con i dati dei giorni
+        $days = Day::all();
+        return view('days.index', ['days' => $days]);
+    }
     public function create()
     {
         // Ottieni tutti i trip per il dropdown

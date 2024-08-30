@@ -31,21 +31,30 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Rotte per Days
 Route::get('/days/create', [DayController::class, 'create'])->name('days.create');
 Route::post('/days', [DayController::class, 'store'])->name('days.store');
-Route::get('/days', [DayController::class, 'index'])->name('days.index');
+Route::get('/days', [DayController::class, 'showDaysPage'])->name('days.index');
 
+// Rotte per Stops
 Route::get('/stops/create', [StopController::class, 'create'])->name('stops.create');
 Route::post('/stops', [StopController::class, 'store'])->name('stops.store');
-Route::get('/stops', [StopController::class, 'index'])->name('stops.index');
+Route::get('/stops', [StopController::class, 'showStopsPage'])->name('stops.index');
 
-
-Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
+// Rotte per Trips
+Route::get('/trips', [TripController::class, 'showTripsPage'])->name('trips.index');
 Route::get('/trips/create', [TripController::class, 'create'])->name('trips.create');
 Route::post('/trips', [TripController::class, 'store'])->name('trips.store');
 Route::get('/trips/{id}', [TripController::class, 'show'])->name('trips.show');
 Route::get('/trips/{id}/edit', [TripController::class, 'edit'])->name('trips.edit');
 Route::put('/trips/{id}', [TripController::class, 'update'])->name('trips.update');
 Route::delete('/trips/{id}', [TripController::class, 'destroy'])->name('trips.destroy');
+
+// Richieste API per Vue.js
+Route::prefix('api')->group(function () {
+    Route::get('/trips', [TripController::class, 'index']);
+    Route::get('/stops', [StopController::class, 'index']);
+    Route::get('/days', [DayController::class, 'index']);
+});
 
 require __DIR__.'/auth.php';

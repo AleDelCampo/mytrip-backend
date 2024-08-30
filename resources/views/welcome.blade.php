@@ -12,7 +12,7 @@
     <!-- Additional Content -->
     <div class="container mt-5 my-light-bg">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Plan Your Trip</h5>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Create a Day</h5>
@@ -30,24 +30,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Add a Stop</h5>
-                        <p class="card-text">Include stops and landmarks in your itinerary.</p>
+                        <p class="card-text">Include your favourite stops and landmarks in your itinerary.</p>
                         <a href="{{ route('stops.create') }}" class="btn my-btn text-white">Create Stop</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Discover New Destinations</h5>
-                        <p class="card-text">Explore trips planned by others and get inspired.</p>
-                        <a href="{{ route('trips.index') }}" class="btn my-btn text-white">View Trips</a>
-                    </div>
-                </div>
-            </div>
+            
             <div class="col-md-12 mt-4">
                 <div class="card text-center">
                     <div class="card-body">

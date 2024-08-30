@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Trip</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-    <div class="container">
+@extends('layouts.app')
+
+@section('content')
+    <div class="container mt-2">
         <h1>Create Trip</h1>
         <form action="{{ route('trips.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -30,5 +24,5 @@
             <button type="submit" class="btn my-btn text-white">Create Trip</button>
         </form>
     </div>
-</body>
-</html>
+@endsection
+

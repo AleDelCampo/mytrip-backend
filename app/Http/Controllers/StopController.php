@@ -15,6 +15,12 @@ class StopController extends Controller
         return view('stops.index', ['stops' => Stop::with('images', 'rating')->get()]);
     }
 
+    public function showStopsPage()
+{
+    // Vista: restituisce la vista con i dati delle tappe
+    $stops = Stop::with('images', 'rating')->get();
+    return view('stops.index', ['stops' => $stops]);
+}
     public function create()
     {
         $days = Day::all(); // Recupera tutti i giorni per il dropdown

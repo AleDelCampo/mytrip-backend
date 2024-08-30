@@ -14,6 +14,14 @@ class TripController extends Controller
         return response()->json(Trip::with('days.stops')->get());
     }
 
+    public function showTripsPage()
+    {
+        // Recupera tutti i viaggi
+        $trips = Trip::all();
+
+        // Ritorna la vista con i dati dei viaggi
+        return view('trips.index', ['trips' => $trips]);
+    }
     public function create()
     {
         return view('trips.create'); // Vista per il form di creazione
@@ -24,7 +32,7 @@ class TripController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048', // Validazione per l'immagine
+            'image' => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -32,7 +40,14 @@ class TripController extends Controller
         }
 
         $trip = Trip::create($data);
-        return view('trips.index');
+
+        // Per API
+        if ($request->wantsJson()) {
+            return response()->json(['trip' => $trip], 201);
+        }
+
+        // Per il rendering della vista
+        return redirect()->route('trips.index')->with('success', 'Trip created successfully');
     }
 
     public function show($id)
