@@ -9,7 +9,7 @@ class Stop extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['trip_id', 'day_id', 'location', 'latitude', 'longitude', 'rating']; // Aggiunto latitude e longitude
+    protected $fillable = ['trip_id', 'day_id', 'location', 'latitude', 'longitude', 'rating'];
 
     public function trip()
     {

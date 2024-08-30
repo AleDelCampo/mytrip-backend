@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Main Jumbotron -->
+
     <div class="jumbotron text-center text-white py-5 my-bg">
         <div class="container">
             <h1 class="display-4">Welcome to MyTrips</h1>
@@ -9,7 +9,6 @@
         </div>
     </div>
 
-    <!-- Additional Content -->
     <div class="container mt-5 my-light-bg">
         <div class="row">
             <div class="col-md-4">
