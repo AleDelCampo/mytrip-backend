@@ -25,9 +25,6 @@ RUN composer install --no-dev --optimize-autoloader
 # Copia il file di configurazione del server (opzionale)
 COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Genera chiave dell'app Laravel (solo se non l'hai ancora fatto)
-RUN php artisan key:generate
-
 # Imposta i permessi corretti
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
