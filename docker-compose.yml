@@ -1,17 +1,49 @@
-version: '3.7'
-
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mytrip-backend
+    container_name: mytrip-backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: mydatabase
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
+  db:
+    image: mysql:5.7
+    container_name: mytrip-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - db_data:/var/lib/mysql
+
+  php-fpm:
+    image: php:fpm
+    container_name: mytrip-php-fpm
+    volumes:
+      - .:/var/www/html
+
   nginx:
-    image: nginx:latest
+    image: nginx
+    container_name: mytrip-nginx
     ports:
       - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./public:/var/www/public
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./.docker/nginx/fastcgi-php.conf:/etc/nginx/snippets/fastcgi-php.conf
     depends_on:
-      - php
+      - app
+      - php-fpm
 
-  php:
-    image: php:7.4-fpm
-    volumes:
-      - ./public:/var/www/public
+volumes:
+  db_data:
