@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
 COPY . /var/www/html
 
 WORKDIR /var/www/html
