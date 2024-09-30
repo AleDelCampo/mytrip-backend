@@ -6,7 +6,7 @@ services:
     image: mytrip-backend
     container_name: mytrip-backend
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       DB_CONNECTION: mysql
       DB_HOST: sql7.freemysqlhosting.net
@@ -15,24 +15,11 @@ services:
       DB_USERNAME: sql7734510
       DB_PASSWORD: caSahQDLZd
 
-  php-fpm:
-    image: php:fpm
-    container_name: mytrip-php-fpm
+  php-apache:
+    image: php:apache
+    container_name: mytrip-php-apache
     volumes:
       - .:/var/www/html
-
-  nginx:
-    image: nginx
-    container_name: mytrip-nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./.docker/nginx/fastcgi-php.conf:/etc/nginx/snippets/fastcgi-php.conf
-      - .:/var/www/html
-    depends_on:
-      - app
-      - php-fpm
 
 volumes:
   db_data:
