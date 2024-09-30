@@ -18,7 +18,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Copia i file del progetto
-COPY . .
+COPY . /var/www/html
 
 # Installa le dipendenze di Laravel
 RUN composer install --no-dev --optimize-autoloader
@@ -27,7 +27,7 @@ RUN composer install --no-dev --optimize-autoloader
 COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Imposta i permessi corretti
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Esponi la porta 80 per Nginx
 EXPOSE 80
