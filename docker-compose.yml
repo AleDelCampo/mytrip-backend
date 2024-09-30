@@ -20,6 +20,7 @@ services:
     container_name: mytrip-php-apache
     volumes:
       - .:/var/www/html
+    working_dir: /var/www/html/public
 
 volumes:
   db_data:
