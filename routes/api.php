@@ -26,10 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('days.stops', StopController::class);
 });
 
-Route::get('trips/{tripId}', [TripController::class, 'getTripDetails']);
-Route::get('/trips/{id}', [TripController::class, 'show']);
-Route::apiResource('trips', TripController::class);
-
 Route::post('/stops/{id}/rate', [StopController::class, 'rate']);
 
 Route::post('/stops/{stop}/notes', [NoteController::class, 'store']);
