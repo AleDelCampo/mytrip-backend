@@ -7,9 +7,9 @@ use App\Http\Controllers\DayController;
 use App\Http\Controllers\StopController;
 
 /*
-|--------------------------------------------------------------------------
+|------------------------------------------------------------------------------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
+|------------------------------------------------------------------------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
@@ -23,13 +23,12 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Rimuovi il gruppo middleware 'auth'
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 // Rotte per Days
 Route::get('/days/create', [DayController::class, 'create'])->name('days.create');
