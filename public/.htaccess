@@ -1,9 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Reindirizza tutte le richieste alla cartella public/
-    RewriteRule ^(.*)$ public/$1 [L]
-
     # Altre configurazioni per Laravel
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -13,13 +10,14 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Reindirizza alla cartella public se non è una cartella o un file
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ public/index.php [L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
 </IfModule>
