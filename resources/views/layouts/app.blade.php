@@ -17,7 +17,7 @@
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/tt-maps.min.js"></script>
 
     <!-- Usando Vite -->
-    @vite(['resources/js/app.js'])
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>
