@@ -1,9 +1,13 @@
 <IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Reindirizza tutte le richieste alla cartella public/
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Altre configurazioni per Laravel
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
-    RewriteEngine On
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
