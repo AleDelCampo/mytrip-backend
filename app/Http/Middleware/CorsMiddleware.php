@@ -13,8 +13,8 @@ class CorsMiddleware
         }
 
         return $next($request)
-            ->header('Access-Control-Allow-Origin', 'https://camper4four.netlify.app')
+            ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, X-Requested-With');
+            ->header('Access-Control-Allow-Headers', '*');
     }
 }
