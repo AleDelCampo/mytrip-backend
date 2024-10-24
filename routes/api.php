@@ -6,6 +6,7 @@ use App\Http\Controllers\TripController;
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\StopController;
 use App\Http\Controllers\NoteController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,16 +18,15 @@ use App\Http\Controllers\NoteController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Rimuovi il middleware di autenticazione per il test
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('trips.days', DayController::class);
-    Route::apiResource('days.stops', StopController::class);
-});
+// Rotte senza middleware di autenticazione
+Route::apiResource('trips.days', DayController::class);
+Route::apiResource('days.stops', StopController::class);
 
 Route::post('/stops/{id}/rate', [StopController::class, 'rate']);
-
 Route::post('/stops/{stop}/notes', [NoteController::class, 'store']);
 Route::delete('/notes/{noteId}', [NoteController::class, 'destroy']);
