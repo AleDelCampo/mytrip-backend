@@ -11,7 +11,10 @@ class TripController extends Controller
     public function index()
     {
         // Carica tutti i viaggi con le giornate e le tappe correlate
-        return response()->json(Trip::with('days.stops')->get());
+        return response()->json(Trip::with('days.stops')->get())
+        ->header('Access-Control-Allow-Origin', 'https://camper4four.netlify.app')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
 
     public function showTripsPage()
